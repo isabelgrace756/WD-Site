@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery</title>
+<link rel="icon" type="image/x-icon" href="./assets/favicon_io/favicon.ico">
+<!-- Newsreader with optical sizing + opsz axis; Fustat for UI -->
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200;0,6..72,300;1,6..72,200;1,6..72,300&family=Fustat:wght@200;300;400;500&display=swap" rel="stylesheet">
+<!-- Lenis smooth scroll -->
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --emerald: #0A4D49;
+    --bg: #FCFCF2;
+    --text: #0A4D49;
+    --text-muted: #5a5a5a;
+    --border: #d0cec6;
+    --page-pad: 80px;
+  }
+
+  /* Optical sizing on all Newsreader usage */
+  .newsreader {
+    font-family: 'Newsreader', serif;
+    font-optical-sizing: auto;
+  }
+
+  body {
+    font-family: 'Fustat', sans-serif;
+    font-weight: 300;
+    font-size: 17px;
+    line-height: 1.2;
+    padding: 0 var(--page-pad);
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: var(--bg);
+  }
+  /* Logo Styles */
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    flex: 0 0 auto; /* Keeps logo from stretching */
+  }
+
+  .nav-logo img {
+    height: 40px; /* Adjust based on your logo design */
+    width: auto;
+    display: block;
+  }
+
+  nav .nav-links {
+    display: flex;
+    flex: 1;
+    justify-content: space-evenly;
+    list-style: none;
+    margin-right: 32px;
+  }
+  nav .nav-links a {
+    text-decoration: none;
+    font-family: 'Fustat', sans-serif;
+    font-weight: 300;
+    font-size: 15px;
+    color: var(--text);
+    transition: opacity 0.25s ease;
+  }
+  nav .nav-links a:hover { opacity: 0.55; }
+
+  /* Smooth Color & Shape Transition */
+.btn {
+  display: inline-block;
+  padding: 12px 28px;
+  font-family: 'Fustat', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  border-radius: 0px; /* Start square */
+  line-height: 1;
+  text-align: center;
+  min-width: 160px;
+  width: auto;
+  
+  /* Combined transition for color, background, and shape */
+  transition: 
+    color 0.4s cubic-bezier(0.76, 0, 0.24, 1),
+    background-color 0.4s cubic-bezier(0.76, 0, 0.24, 1),
+    border-radius 0.4s cubic-bezier(0.76, 0, 0.24, 1),
+    border-color 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.btn:hover {
+  border-radius: 100px; /* Becomes a pill on hover */
+}
+
+/* Primary Variant */
+.btn-primary {
+  background-color: var(--emerald);
+  color: var(--bg);
+  border-color: var(--emerald);
+}
+
+.btn-primary:hover {
+  background-color: var(--bg);
+  color: var(--emerald);
+  border-color: var(--emerald);
+}
+
+/* White/Inverse Variant */
+.btn-white {
+  background-color: var(--bg);
+  color: var(--emerald);
+  border-color: var(--bg);
+}
+
+.btn-white:hover {
+  background-color: var(--emerald);
+  color: var(--bg);
+  border-color: var(--bg);
+}
+
+.tour-section .btn-white {
+width: min-content;
+}
+
+  /* SITE TITLE — full width, emerald, optical sizing */
+  .site-title, .site-title-footer {
+    font-family: 'Newsreader', serif;
+    font-optical-sizing: auto;
+    font-weight: 200;
+    font-size: clamp(64px, 9.8vw, 148px);
+    line-height: 0.88;
+    color: var(--emerald);
+    letter-spacing: -0.03em;
+    display: block;
+    width: 100%;
+  }
+  .site-title { padding: 12px var(--page-pad) 0; }
+  .site-title-footer { padding: 0 var(--page-pad) 10px; }
+
+  .header-div {
+    width: 100%;
+  }
+  
+
+  /* HEADER PLACEHOLDER IMAGES — responsive and centered */
+  .header-placeholder {
+    width: 100%; /* Occupies full available width */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+  .header-placeholder img {
+    width: 100%;      /* Scales to the width of the container */
+    max-width: 1600px; /* Prevents it from getting too massive on huge monitors */
+    height: auto;     /* Maintains aspect ratio */
+    display: block;
+  }
+
+  .header-placeholder h1 {
+    font-family: 'Newsreader', serif;
+    font-optical-sizing: auto;
+    font-weight: 200;
+    font-size: clamp(64px, 9.8vw, 148px);
+    line-height: 0.88;
+    color: var(--emerald);
+    letter-spacing: -0.03em;
+    width: 100%;
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    padding: 0 var(--page-pad);
+    width: 100%;
+    aspect-ratio: 16/7;
+    overflow: hidden;
+    background: #a8a59d;
+  }
+  .hero-bg {
+    width: 100%; height: 100%;
+    background: #a8a59d;
+    display: block;
+  }
+  .hero-text {
+    position: absolute;
+    bottom: 40px;
+    color: #fff;
+    font-family: 'Newsreader', serif;
+    font-optical-sizing: auto;
+    font-weight: 200;
+    font-style: normal;
+    font-size: clamp(30px, 5vw, 72px);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    max-width: 700px;
+  }
+
+  /* TOUR */
+  .tour-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 440px;
+  }
+  .tour-content {
+    background: var(--emerald);
+    padding: 64px var(--page-pad);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .tour-content h2 {
+    font-family: 'Newsreader', serif;
+    font-optical-sizing: auto;
+    font-weight: 200;
+    font-size: clamp(50px, 3.5vw, 56px);
+    margin-bottom: 20px;
+    color: #fff;
+  }
+  .tour-content p {
+    font-family: 'Fustat', sans-serif;
+    font-weight: 200;
+    font-size: clamp(15px, 1.6vw, 22px);
+    line-height: 1.2;
+    color: rgba(255,255,255,0.88);
+    margin-bottom: 40px;
+    max-width: 500px;
+  }
+  .tour-image {
+    background: #1a1a1a;
+    min-height: 440px;
+    overflow: hidden;
+  }
+  .tour-image > div {
+    width: 100%; height: 100%; min-height: 440px;
+    background: #1a1a1a;
+  }
+
+  /* WHAT WE OFFER */
+  .offer-section {
+    padding: 40px 0;
+  }
+  .offer-section > h2 {
+    font-family: 'Newsreader', serif;
+    font-optical-sizing: auto;
+    font-weight: 200;
+    font-size: 50px;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    font-style: normal;
+    line-height: 1.1;
+    margin-bottom: 0;
+  }
+  .offer-list {
+    margin-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+  .offer-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: top;
+    border-bottom: 1px solid var(--border);
+    padding: 18px 0;
+    gap: 80px;
+  }
+  .offer-item h3 {
+    font-family: 'Fustat', sans-serif;
+    font-weight: 500;
+    font-size: 72px;
+    color: var(--emerald);
+    line-height: 1;
+    letter-spacing: normal;
+  }
+  .offer-item p {
+    font-family: 'Fustat', sans-serif;
+    font-weight: 300;
+    font-size: 17px;
+    line-height: 1.45;
+    color: var(--text-muted);
+  }
+
+  /* IMAGE GRID */
+  .image-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+  }
+  .image-placeholder {
+    background: #c4c1b8;
+    aspect-ratio: 4/3;
+    width: 100%;
+    overflow: hidden;
+    display: block;
+  }
+  .image-placeholder img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+
+  /* TESTIMONIALS */
+  .testimonials-section {
+    padding: 80px 0;
+  }
+  .testimonials-section > h2 {
+    font-family: 'Newsreader', serif;
+    font-optical-sizing: auto;
+    font-weight: 200;
+    font-size: clamp(26px, 3vw, 44px);
+    letter-spacing: -0.03em;
+    color: var(--text);
+    margin-bottom: 48px;
+  }
+  .marquee-wrapper {
+    overflow: hidden;
+    width: 100%;
+  }
+  .marquee-track {
+    display: flex;
+    gap: 20px;
+    width: max-content;
+    animation: marquee 40s linear infinite;
+    padding: 4px 0 8px;
+  }
+  .marquee-track:hover { animation-play-state: paused; }
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .testimonial-card {
+    background: linear-gradient(135deg, rgba(184,212,210,0.3) 0%, #FCFCF2 100%);
+    border: none;
+    padding: 32px 28px;
+    width: 400px;
+    flex-shrink: 0;
+  }
+  .stars {
+    color: var(--emerald);
+    font-size: 13px;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+  }
+  .testimonial-name {
+    font-family: 'Fustat', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 14px;
+    color: var(--text);
+  }
+  .testimonial-text {
+    font-family: 'Fustat', sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text);
+  }
+
+  /* CTA */
+  .cta-section {
+    background: var(--emerald);
+    padding: 80px 0;
+    text-align: center;
+    color: #fff;
+    width: 100%;
+  }
+  .cta-section h2 {
+    font-family: 'Newsreader', serif;
+    font-optical-sizing: auto;
+    font-weight: 200;
+    font-size: clamp(36px, 5.5vw, 72px);
+    letter-spacing: -0.03em;
+    margin-bottom: 28px;
+    color: #fff;
+  }
+  .cta-section p {
+    font-family: 'Fustat', sans-serif;
+    font-weight: 200;
+    font-size: clamp(15px, 1.6vw, 22px);
+    line-height: 1.45;
+    color: rgba(255,255,255,0.85);
+    max-width: 620px;
+    margin: 0 auto 44px;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--bg);
+    padding: 40px 0;
+    border-top: 1px solid var(--border);
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    padding-bottom: 24px;
+  }
+  .footer-nav {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .footer-nav a {
+    text-decoration: none;
+    font-family: 'Fustat', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    font-weight: 300;
+    transition: opacity 0.25s ease;
+  }
+  .footer-nav a:hover { opacity: 0.55; }
+  .footer-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-end;
+  }
+  .footer-contact a {
+    text-decoration: none;
+    font-family: 'Fustat', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    font-weight: 300;
+    transition: opacity 0.25s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .footer-contact a:hover { opacity: 0.55; }
+  .footer-contact svg { width: 15px; height: 15px; flex-shrink: 0; }
+  .footer-bottom {
+    text-align: center;
+    font-family: 'Fustat', sans-serif;
+    font-size: 13px;
+    color: var(--text-muted);
+    padding: 8px 0 24px;
+  }
+
+  /* HAMBURGER */
+  .nav-hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+    background: none;
+    border: none;
+  }
+  .nav-hamburger span {
+    display: block; width: 24px; height: 1.5px;
+    background: var(--text); transition: all 0.3s ease;
+  }
+
+  /* MOBILE NAV — hamburger only on mobile, no links */
+  .mobile-nav {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--bg);
+    z-index: 200;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+  }
+  .mobile-nav.open { display: flex; }
+  .mobile-nav a {
+    text-decoration: none;
+    font-family: 'Newsreader', serif;
+    font-optical-sizing: auto;
+    font-weight: 200;
+    font-size: 36px;
+    letter-spacing: -0.03em;
+    color: var(--text);
+  }
+  .mobile-nav-close {
+    position: absolute; top: 20px; right: 24px;
+    font-size: 28px; background: none; border: none;
+    cursor: pointer; color: var(--text); line-height: 1;
+  }
+
+  /* ── MASONRY GALLERY ── */
+  .gallery-section {
+    margin-top: 60px;
+    margin-bottom: 80px;
+  }
+
+  /*
+   * CSS-only masonry: multi-column with column-fill: balance.
+   * Images flow naturally top-to-bottom within each column,
+   * so mixed portrait/landscape/square all fit without gaps.
+   * To add images: paste a new <figure> block anywhere inside .masonry-grid.
+   */
+  .masonry-grid {
+    column-count: 3;
+    column-gap: 16px;
+  }
+
+  .masonry-item {
+    break-inside: avoid;        /* never split an item across columns */
+    margin-bottom: 16px;
+    display: block;
+    position: relative;
+    overflow: hidden;
+    cursor: zoom-in;
+  }
+
+  /* The image fills its natural aspect ratio — no cropping, no squishing */
+  .masonry-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.55s cubic-bezier(0.76, 0, 0.24, 1),
+                opacity  0.35s ease;
+  }
+
+  .masonry-item:hover img {
+    transform: scale(1.03);
+    opacity: 0.92;
+  }
+
+  /* Optional caption — remove the <figcaption> tag if you don't need it */
+  .masonry-item figcaption {
+    font-family: 'Fustat', sans-serif;
+    font-weight: 300;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    margin-top: 6px;
+    padding: 0 2px;
+  }
+
+  /* ── LIGHTBOX ── */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 77, 73, 0.92);
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    cursor: zoom-out;
+  }
+  .lightbox.open { display: flex; }
+
+  .lightbox img {
+    max-width: min(90vw, 1200px);
+    max-height: 88vh;
+    width: auto;
+    height: auto;
+    display: block;
+    object-fit: contain;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.45);
+  }
+
+  .lightbox-close {
+    position: fixed;
+    top: 20px;
+    right: 28px;
+    font-size: 28px;
+    color: var(--bg);
+    background: none;
+    border: none;
+    cursor: pointer;
+    line-height: 1;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+  }
+  .lightbox-close:hover { opacity: 1; }
+
+  @media (max-width: 900px) {
+    :root { --page-pad: 40px; }
+    .offer-item h3 { font-size: 52px; }
+    .offer-section > h2 { font-size: 38px; }
+    .header-placeholder {
+      width: calc(100% + 80px);
+      margin-left: -40px;
+      margin-bottom: -40px;
+    }
+    .hero {
+      width: calc(100% + 80px);
+      margin-left: -40px;
+    }
+    .cta-section {
+      width: calc(100% + 80px);
+      margin-left: -40px;
+    }
+    .masonry-grid { column-count: 2; }
+    .header-placeholder h1 {
+        padding-left: 40px;
+    }
+  }
+  @media (max-width: 768px) {
+    :root { --page-pad: 24px; }
+    body { font-size: 15px; }
+    nav { padding: 16px var(--page-pad); }
+    /* Hide nav links + CTA on mobile — hamburger only */
+    .nav-links { display: none !important; }
+    .nav-cta { display: none !important; }
+    .nav-hamburger { display: flex; }
+    .site-title, .site-title-footer { font-size: clamp(44px, 13vw, 90px); }
+    .hero {
+      aspect-ratio: 4/3;
+      width: calc(100% + 48px);
+      margin-left: -24px;
+    }
+    .hero-text { left: 24px; bottom: 24px; font-size: clamp(24px, 7vw, 44px); }
+    .tour-section { grid-template-columns: 1fr; }
+    .tour-content { padding: 48px var(--page-pad); }
+    .tour-content p { font-size: 16px; }
+    .tour-image { min-height: 260px; }
+    .tour-image > div { min-height: 260px; }
+    .offer-section { padding: 48px var(--page-pad) 56px; }
+    .offer-section > h2 { font-size: 30px; }
+    .offer-item { grid-template-columns: 1fr; gap: 8px; padding: 24px 0; }
+    .offer-item h3 { font-size: 44px; }
+    .offer-item p { font-size: 15px; }
+    .image-grid {
+      grid-template-columns: 1fr;
+      width: calc(100% + 48px);
+      margin-left: -24px;
+    }
+    .header-placeholder {
+      width: calc(100% + 48px); /* Maintains full bleed */
+      margin-left: -24px;       /* Aligns with your page padding */
+      padding: 40px 0;          /* Tighter padding for mobile */
+      margin-bottom: -40px;
+    }
+
+    .header-placeholder h1 {
+        padding-left: 24px;
+    }
+
+    .header-placeholder img {
+      width: 90%; /* Shrink the logo slightly so it doesn't hit the edges of the screen */
+      height: auto;
+    }
+    .testimonials-section { padding: 56px 0 64px; }
+    .testimonials-section > h2 { font-size: 26px; }
+    .cta-section {
+      padding: 64px var(--page-pad);
+      width: calc(100% + 48px);
+      margin-left: -24px;
+    }
+    .cta-section p { font-size: 16px; }
+    footer { padding: 40px var(--page-pad) 0; }
+    .footer-top { grid-template-columns: 1fr; gap: 28px; }
+    .footer-contact { align-items: flex-start; }
+    .masonry-grid { column-count: 2; column-gap: 10px; }
+    .masonry-item { margin-bottom: 10px; }
+  }
+  @media (max-width: 480px) {
+    .masonry-grid { column-count: 1; }
+    .header-placeholder { margin-bottom: -40px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-nav-close" onclick="closeMobileNav()">&#x2715;</button>
+  <a href="./beforeAfter.html" onclick="closeMobileNav()">Before + After</a>
+  <a href="./gallery.html" onclick="closeMobileNav()">Gallery</a>
+  <a href="./about.html" onclick="closeMobileNav()">About</a>
+ <a href="mailto:sherry@whitacre-design.com" onclick="closeMobileNav()">Contact Us</a>
+</div>
+
+<nav>
+  <a href="index.html" class="nav-logo" aria-label="Whitacre Design Home">
+    <img src="./assets/Logo.svg">
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="./beforeAfter.html">Before + After</a></li>
+    <li><a href="./gallery.html">Gallery</a></li>
+    <li><a href="./about.html">About</a></li>
+  </ul>
+
+  <a href="mailto:sherry@whitacre-design.com" class=" btn btn-primary nav-cta">Contact Us</a>
+  <button class="nav-hamburger" onclick="openMobileNav()" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Placeholder replacing "Whitacre Design" header — full bleed -->
+ <div class="header-div">
+<div class="header-placeholder" aria-label="Whitacre Design header image placeholder">
+  <h1>Gallery</h1>
+</div></div>
+
+<section class="gallery-section">
+  <div class="masonry-grid" id="masonryGrid">
+
+    <!-- IMAGE 1 -->
+    <figure class="masonry-item" onclick="openLightbox(this)">
+      <img src="./assets/gallery/1.jpg" alt="Interior design photo 1" loading="lazy">
+      <!-- <figcaption>Optional caption</figcaption> -->
+    </figure>
+
+    <!-- IMAGE 2 -->
+    <figure class="masonry-item" onclick="openLightbox(this)">
+      <img src="./assets/gallery/2.jpg" alt="Interior design photo 2" loading="lazy">
+    </figure>
+
+    <!-- IMAGE 3 -->
+    <figure class="masonry-item" onclick="openLightbox(this)">
+      <img src="./assets/gallery/3.jpg" alt="Interior design photo 3" loading="lazy">
+    </figure>
+
+    <!-- IMAGE 4 -->
+    <figure class="masonry-item" onclick="openLightbox(this)">
+      <img src="./assets/gallery/4.jpg" alt="Interior design photo 4" loading="lazy">
+    </figure>
+
+    <!-- IMAGE 5 -->
+    <figure class="masonry-item" onclick="openLightbox(this)">
+      <img src="./assets/gallery/5.jpg" alt="Interior design photo 5" loading="lazy">
+    </figure>
+
+    <!-- IMAGE 6 -->
+    <figure class="masonry-item" onclick="openLightbox(this)">
+      <img src="./assets/gallery/6.jpg" alt="Interior design photo 6" loading="lazy">
+    </figure>
+
+    <!-- IMAGE 7 -->
+    <figure class="masonry-item" onclick="openLightbox(this)">
+      <img src="./assets/gallery/7.jpg" alt="Interior design photo 7" loading="lazy">
+    </figure>
+
+    <!-- IMAGE 8 -->
+    <figure class="masonry-item" onclick="openLightbox(this)">
+      <img src="./assets/gallery/8.jpg" alt="Interior design photo 8" loading="lazy">
+    </figure>
+
+    <!-- IMAGE 9 -->
+    <figure class="masonry-item" onclick="openLightbox(this)">
+      <img src="./assets/gallery/9.jpg" alt="Interior design photo 9" loading="lazy">
+    </figure>
+
+    <!-- IMAGE 10 -->
+    <figure class="masonry-item" onclick="openLightbox(this)">
+      <img src="./assets/gallery/10.jpg" alt="Interior design photo 10" loading="lazy">
+    </figure>
+
+    <!-- IMAGE 11 -->
+    <figure class="masonry-item" onclick="openLightbox(this)">
+      <img src="./assets/gallery/11.jpg" alt="Interior design photo 11" loading="lazy">
+    </figure>
+
+    <!-- IMAGE 12 -->
+    <figure class="masonry-item" onclick="openLightbox(this)">
+      <img src="./assets/gallery/12.jpg" alt="Interior design photo 12" loading="lazy">
+    </figure>
+
+    <!-- IMAGE 13 -->
+    <figure class="masonry-item" onclick="openLightbox(this)">
+      <img src="./assets/gallery/13.jpg" alt="Interior design photo 13" loading="lazy">
+    </figure>
+
+    <!-- IMAGE 14 -->
+    <figure class="masonry-item" onclick="openLightbox(this)">
+      <img src="./assets/gallery/14.jpg" alt="Interior design photo 14" loading="lazy">
+    </figure>
+
+    <!-- IMAGE 15 -->
+    <figure class="masonry-item" onclick="openLightbox(this)">
+      <img src="./assets/gallery/15.jpg" alt="Interior design photo 15" loading="lazy">
+    </figure>
+
+    <!-- IMAGE 16 -->
+    <figure class="masonry-item" onclick="openLightbox(this)">
+      <img src="./assets/gallery/16.jpg" alt="Interior design photo 16" loading="lazy">
+    </figure>
+
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">&#x2715;</button>
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+
+<section class="cta-section" id="contact">
+  <h2>Get in Touch</h2>
+  <p>Ready to see what your home could truly be? We would love to hear your story and help you find the natural rhythm of your space. Whether you are looking for a complete redesign or just a little help with the finishing touches, let’s chat about how we can make your sanctuary a reality.
+
+Reach out today to schedule your free quote—we can’t wait to meet you.</p>
+  <a href="mailto:sherry@whitacre-design.com" class="btn btn-white">Contact Us</a>
+</section>
+
+<footer>
+  <div class="footer-top">
+    <ul class="footer-nav">
+      <li><a href="./beforeAfter.html">Before + After</a></li>
+      <li><a href="./gallery.html">Gallery</a></li>
+      <li><a href="./about.html">About</a></li>
+    </ul>
+    <div class="footer-contact">
+      <a href="mailto:sherry@whitacre-design.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+        sherry@whitacre-design.com
+      </a>
+      <a href="tel:+1 6146799638">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        +1 (614) 679-9638
+      </a>
+    </div>
+  </div>
+  <!-- Footer title also replaced with placeholder -->
+  <div class="header-placeholder" aria-label="Footer title image placeholder">
+    <img src="./assets/Logo.svg">
+  </div>
+  <div class="footer-bottom"><span id="copyright"></span></div>
+</footer>
+
+<script>
+  // Lenis smooth scroll
+  const lenis = new Lenis({
+    duration: 1.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smooth: true,
+  });
+  function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+  requestAnimationFrame(raf);
+
+  // Intercept anchor clicks for Lenis
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        lenis.scrollTo(target, { offset: -80, duration: 1.4 });
+      }
+    });
+  });
+
+  document.getElementById('copyright').textContent = '\u00A9' + new Date().getFullYear();
+
+  function openMobileNav() {
+    document.getElementById('mobileNav').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    lenis.stop();
+  }
+  function closeMobileNav() {
+    document.getElementById('mobileNav').classList.remove('open');
+    document.body.style.overflow = '';
+    lenis.start();
+  }
+</script>
+</body>
+</html>
