@@ -177,31 +177,30 @@ width: min-content;
     display: block;
   }
 
-  /* HERO */
+ /* HERO */
   .hero {
     position: relative;
     margin-top: 40px;
     margin-bottom: 40px;
-    margin-left: calc(-1 * var(--page-pad));
-    width: calc(100% + (2 * var(--page-pad)));
+    
+    /* Removed the negative margins so it stays contained inside --page-pad */
+    width: 100%; 
+    
     aspect-ratio: 16/7;
     overflow: hidden;
-    background: #a8a59d;
+    background: transparent; /* Changed from #a8a59d to prevent any grey peek-through */
   }
   
-  /* Make sure the background wrapper fills the full height and width */
   .hero-bg {
     width: 100%; 
     height: 100%;
-    background: #a8a59d;
     display: block;
   }
 
-  /* Target the actual img tag to make it cover everything edge-to-edge */
   .hero-bg img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: cover; /* Keeps the photo proportional within the 16/7 box */
     object-position: center;
     display: block;
   }
