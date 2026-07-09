@@ -38,16 +38,18 @@
     overflow-x: hidden;
   }
 
-  /* NAV */
+/* NAV */
   nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px 0;
     position: sticky;
     top: 0;
     z-index: 100;
     background-color: var(--bg);
+    margin-left: calc(-1 * var(--page-pad));
+    width: calc(100% + (2 * var(--page-pad)));
+    padding: 20px var(--page-pad); 
   }
   /* Logo Styles */
   .nav-logo {
@@ -182,6 +184,10 @@ width: min-content;
     margin-bottom: 40px;
     padding: 0 var(--page-pad);
     width: 100%;
+
+   margin-left: calc(-1 * var(--page-pad));
+    width: calc(100% + (2 * var(--page-pad)));
+   
     aspect-ratio: 16/7;
     overflow: hidden;
     background: #a8a59d;
